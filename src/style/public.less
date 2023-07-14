@@ -1,0 +1,126 @@
+// swipe
+.swipe-box {
+  padding: 0.5rem;
+}
+.my-swipe .van-swipe-item {
+  color: #fff;
+  font-size: 20px;
+  height: 800px;
+  line-height: 150px;
+  text-align: center;
+  background-color: #39a9ed;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  img {
+    height: 100%;
+  }
+}
+.my-swipe2 .van-swipe-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 20px;
+    height: 400px;
+    line-height: 150px;
+    text-align: center;
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    img {
+      height: 50%;
+    }
+  }
+:deep(.van-swipe__indicator) {
+  height: 30px;
+  width: 30px;
+  margin: 0 10px;
+  background-color: black;
+}
+:deep(.van-swipe__indicator--active){
+    background-color: #39a9ed;
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  .title-1 {
+    font-size: 1.5rem;
+    font-weight: bolder;
+    color: #00609b;
+  }
+  .title-2 {
+    font-size: 1rem;
+    color: gray;
+  }
+}
+
+//  goods
+.goodsList {
+//   .hot{
+//     position: absolute;
+//     right: -10;
+//     top: 0;
+//     color: red;
+//   }
+  .item {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0.8rem;
+    background-color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 23px -8px #8b8b8b;
+    h2{margin: 0.5rem 0; color: #00385c; }
+    .item-price {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      .price{
+        display: flex;
+        flex-direction: column;
+        .old{
+            color: gray;
+            text-decoration:line-through;
+        }
+        .new{
+            color: orangered;
+            font-weight: bolder;
+            font-size: 1.1rem;
+        }
+      }
+    }
+    .van-button {
+      padding: 0.8rem;
+    }
+    .notice-swipe {
+      height: 80px;
+      line-height: 80px;
+    }
+  }
+  .van-image {
+    width: 70%;
+  }
+  :deep(.van-grid-item__content) {
+    background-color: rgba(0, 0, 0, 0);
+  }
+}
+
+.news-img{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    img{
+        width: 90%;
+        border-radius: 0.5rem;
+        margin: 0.5rem 0;
+        box-shadow: 0 0 23px -8px #8b8b8b;
+    }
+}
