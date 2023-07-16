@@ -12,7 +12,7 @@
       <div class="title-2">Browse our Special Offers of the month!</div>
     </div>
     <div class="goodsList">
-      <van-grid :border="false" :column-num="2" :gutter="20">
+      <van-grid :border="false" :column-num="2" :gutter="5">
         <van-grid-item v-for="i in 7">
           <div class="item">
             <van-icon name="hot" size="40" style="position: absolute; right: -10px; top: -10px; color: rgb(255, 111, 0);" />
@@ -23,7 +23,7 @@
             <div class="item-price">
               <span class="price">
                 <div class="old">$ 13.0</div>
-                <div class="new">$ 11.0</div>
+                <div class="new">$ 113.0</div>
               </span>
               <van-button type="primary" round>
                 <van-swipe
@@ -33,7 +33,7 @@
                   :touchable="false"
                   :show-indicators="false"
                 >
-                  <van-swipe-item><van-icon name="cart" /></van-swipe-item>
+                  <van-swipe-item><van-icon name="cart" size="15" /></van-swipe-item>
                   <van-swipe-item>Add</van-swipe-item>
                 </van-swipe>
               </van-button>
@@ -61,8 +61,9 @@
         </van-swipe-item>
       </van-swipe>
     </div>
+    
     <!-- back-top -->
-    <van-back-top right="2vw" bottom="2vh" />
+    <van-back-top style="width: 1.5rem;height: 1.5rem;" right="1rem" bottom="1rem"/>
   </div>
 </template>
 
@@ -84,8 +85,11 @@ const imgs2 = [
   require("../assets/swipe/sonifer.jpg"),
 ];
 onMounted(() => {
+  let params = {
+    page:1,
+  }
   http
-    .get("http://192.168.1.232:8081/test/getGoodsListByPage")
+    .post("http://121.41.73.253:8081/test/getGoodsListByPage?page="+params.page)
     .then((res) => {
       console.log(res);
     })
@@ -97,4 +101,5 @@ onMounted(() => {
 
 <style lang="less" scoped>
 @import url("@/style/public.less");
+
 </style>

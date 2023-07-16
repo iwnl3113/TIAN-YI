@@ -5,7 +5,7 @@
         <van-icon name="bars" size="30" color="gray" @click="showMenu" />
         <img src="@/assets/lgoo.png" alt="" />
         <van-badge :content="0" color="#1989fa">
-          <van-icon name="shopping-cart" size="30" color="rgb(236, 156, 7);" />
+          <van-icon @click="router.push('/cart')" name="shopping-cart" size="30" color="rgb(236, 156, 7);" />
         </van-badge>
       </div>
     </van-sticky>
@@ -35,7 +35,7 @@
         <ul>
           <li>
             <van-icon name="shop" />
-            <router-link to="/home"> home </router-link>
+            <router-link to="/"> home </router-link>
           </li>
           <li>
             <van-icon name="shopping-cart" />
@@ -47,7 +47,7 @@
           </li>
           <li>
             <van-icon name="gift" />
-            <router-link to="/products"> Promotions </router-link>
+            <router-link to="/deal"> Promotions </router-link>
           </li>
         </ul>
       </div>

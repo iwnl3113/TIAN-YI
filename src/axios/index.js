@@ -1,6 +1,6 @@
 //引入 axios
 import axios from "axios";
-import { showSuccessToast, showFailToast } from 'vant';
+import  showFailToast  from 'vant';
 
 const http = axios.create({
   baseURL: '/api',

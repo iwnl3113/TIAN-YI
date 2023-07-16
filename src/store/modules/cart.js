@@ -4,10 +4,8 @@ import { setItem, getItem } from '@/utils/storage'
 const userStore = defineStore('user', {
   state: () => {
     return {
-      token:'',
-      name: 'admin',
-      username: 120,
-      roles:'',
+      addTotal:'',
+      
     }
   },
   actions:{

@@ -1,53 +1,73 @@
 <template>
-   <div class="home">
-     <div class="swipe-box">
-       <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
-         <van-swipe-item v-for="item in imgs">
-           <img :src="item" alt="" />
-         </van-swipe-item>
-       </van-swipe>
-     </div>
-     <div class="title">
-       <div class="title-1">Special Offers</div>
-       <div class="title-2">Browse our Special Offers of the month!</div>
-     </div>
-     <div class="goodsList">
-       <van-grid :border="false" :column-num="2">
-         <van-grid-item>
-           <van-image
-             src="https://fastly.jsdelivr.net/npm/@vant/assets/apple-1.jpeg"
-           />
-         </van-grid-item>
-         <van-grid-item>
-           <van-image
-             src="https://fastly.jsdelivr.net/npm/@vant/assets/apple-2.jpeg"
-           />
-         </van-grid-item>
-         <van-grid-item v-for="i in 6">
-           <van-image
-             src="https://fastly.jsdelivr.net/npm/@vant/assets/apple-3.jpeg"
-           />
-         </van-grid-item>
-       </van-grid>
-     </div>
-     <!-- back-top -->
-     <van-back-top right="2vw" bottom="2vh" />
-   </div>
- </template>
- 
- <script setup>
- import { ref, reactive, toRefs, onMounted } from "vue";
- import { useRouter } from "vue-router";
- const router = useRouter();
- 
- const imgs = [
-   require("../assets/swipe/3.jpg"),
-   require("../assets/swipe/4.jpg"),
-   require("../assets/swipe/5.jpg"),
- ];
- </script>
- 
- <style lang="less" scoped>
- @import url("@/style/public.less");
- </style>
- 
+  <div class="products">
+    <div class="main-title">
+      Best Seller
+    </div>
+    <div class="goodsList">
+      <van-grid :border="false" :column-num="2" :gutter="5">
+        <van-grid-item v-for="i in 7">
+          <div class="item">
+            <van-icon name="fire" size="40" style="position: absolute; right: -10px; top: -10px; color: rgba(255, 0, 0, 0.898);" />
+            <van-image
+              src="https://fastly.jsdelivr.net/npm/@vant/assets/apple-2.jpeg"
+            />
+            <h2>iphone</h2>
+            <div class="item-price">
+              <span class="price">
+                <div class="old">$ 13.0</div>
+                <div class="new">$ 113.0</div>
+              </span>
+              <van-button type="primary" round>
+                <van-swipe
+                  vertical
+                  class="notice-swipe"
+                  :autoplay="2000"
+                  :touchable="false"
+                  :show-indicators="false"
+                >
+                  <van-swipe-item><van-icon name="cart" /></van-swipe-item>
+                  <van-swipe-item>Add</van-swipe-item>
+                </van-swipe>
+              </van-button>
+            </div>
+          </div>
+        </van-grid-item>
+      </van-grid>
+    </div>
+    <van-pagination v-model="page.currentPage" :total-items="page.total" :show-page-size="page-size">
+      <template #prev-text>
+        <van-icon name="arrow-left" />
+      </template>
+      <template #next-text>
+        <van-icon name="arrow" />
+      </template>
+      <template #page="{ text }">{{ text }}</template>
+    </van-pagination>
+  </div>
+</template>
+
+<script setup>
+  import { ref, reactive, toRefs, onMounted } from "vue";
+  import { useRouter } from "vue-router";
+  
+  import "vant/lib/index.css";
+  const router = useRouter();
+
+  // page
+  const page = reactive({
+    currentPage:1,
+    total:6,
+    size:5,
+  })
+</script>
+
+<style lang="less" scoped>
+
+@import url("@/style/public.less");
+@import url("@/style/pagination.less");
+.products {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+</style>

@@ -5,6 +5,12 @@ import contact from "@/views/contact.vue";
 import deal from "@/views/deal.vue";
 import products from "@/views/products.vue";
 import container from "@/views/container.vue";
+import cart from "../views/shopCart.vue";
+import checkout from "../views/checkout.vue";
+import info from '../views/cart/info.vue'
+import payment from '../views/cart/payment.vue'
+import shipping from '../views/cart/shipping.vue'
+import order from '../views/order.vue'
 const routes = [
   {
     path: "/",
@@ -12,7 +18,7 @@ const routes = [
     component: container,
     children: [
       {
-        path: "/home",
+        path: "/",
         name: "home",
         component: home,
       },
@@ -35,6 +41,39 @@ const routes = [
         path: "/products",
         name: "products",
         component: products,
+      },
+      {
+        path: "/cart",
+        name: "cart",
+        component: cart,
+      },
+      {
+        path: "/checkout",
+        name: "checkout",
+        redirect:'/checkout/info',
+        component: checkout,
+        children: [
+          {
+            path: "/checkout/info",
+            name: "info",
+            component: info,
+          },
+          {
+            path: "/checkout/payment",
+            name: "payment",
+            component: payment,
+          },
+          {
+            path: "/checkout/shipping",
+            name: "shipping",
+            component: shipping,
+          },
+        ],
+      },
+      {
+        path: "/order",
+        name: "order",
+        component: order,
       },
     ],
   },

@@ -15,7 +15,7 @@ const showMenu = ()=>{
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .app{
   height: 100vh;
   width: 100vw;
