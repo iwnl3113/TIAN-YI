@@ -13,19 +13,31 @@
     </div>
     <div class="goodsList">
       <van-grid :border="false" :column-num="2" :gutter="5">
-        <van-grid-item v-for="i in 7">
+        <van-grid-item v-for="(item, index) in goodsList" :key="item.id">
           <div class="item">
-            <van-icon name="hot" size="40" style="position: absolute; right: -10px; top: -10px; color: rgb(255, 111, 0);" />
-            <van-image
-              src="https://fastly.jsdelivr.net/npm/@vant/assets/apple-2.jpeg"
+            <van-icon
+              name="goods-collect"
+              size="40"
+              style="
+                position: absolute;
+                right: -10px;
+                top: -10px;
+                color: rgb(255, 111, 0);
+              "
             />
-            <h2>iphone</h2>
+            <van-image
+              :src="require(`../assets/picture/${item.picFileName}`)"
+              @click="dts(item)"
+            />
+            <h2>{{ item.goodsName }}</h2>
             <div class="item-price">
               <span class="price">
-                <div class="old">$ 13.0</div>
-                <div class="new">$ 113.0</div>
+                <div class="old">
+                  {{ item.priceOld ? "$" + item.priceOld : "" }}
+                </div>
+                <div class="new">$ {{ item.price }}.00</div>
               </span>
-              <van-button type="primary" round>
+              <van-button type="primary" round @click="addCart(item,goodsList)">
                 <van-swipe
                   vertical
                   class="notice-swipe"
@@ -33,7 +45,7 @@
                   :touchable="false"
                   :show-indicators="false"
                 >
-                  <van-swipe-item><van-icon name="cart" size="15" /></van-swipe-item>
+                  <van-swipe-item><van-icon name="cart" /></van-swipe-item>
                   <van-swipe-item>Add</van-swipe-item>
                 </van-swipe>
               </van-button>
@@ -47,8 +59,8 @@
       <div class="title-2">Do not miss our must wanted products</div>
     </div>
     <div class="news-img">
-      <img src="@/assets/banner-BLG-small-size.jpg" alt="">
-      <img src="@/assets/banner-small-size-perfume.jpg" alt="">
+      <img src="@/assets/banner-BLG-small-size.jpg" alt="" />
+      <img src="@/assets/banner-small-size-perfume.jpg" alt="" />
     </div>
     <div class="title">
       <div class="title-1">TIANYI Brands</div>
@@ -61,17 +73,24 @@
         </van-swipe-item>
       </van-swipe>
     </div>
-    
+
     <!-- back-top -->
-    <van-back-top style="width: 1.5rem;height: 1.5rem;" right="1rem" bottom="1rem"/>
+    <van-back-top
+      style="width: 1.5rem; height: 1.5rem"
+      right="1rem"
+      bottom="1rem"
+    />
   </div>
 </template>
 
 <script setup>
-import { ref, reactive, toRefs, onMounted } from "vue";
+import { ref, reactive, toRefs, onMounted, toRaw } from "vue";
 import { useRouter } from "vue-router";
 import http from "../axios/index";
+import { showSuccessToast, showFailToast } from 'vant';
 const router = useRouter();
+import { cartStore } from "../store/modules/cart";
+const store = cartStore();
 
 const imgs = [
   require("../assets/swipe/3.jpg"),
@@ -84,22 +103,53 @@ const imgs2 = [
   require("../assets/swipe/sokany.jpg"),
   require("../assets/swipe/sonifer.jpg"),
 ];
-onMounted(() => {
+
+// goodslist
+const goodsList = ref([]);
+
+const getGoods = () => {
   let params = {
-    page:1,
-  }
+    page: 1,
+    type: 1,
+  };
   http
-    .post("http://121.41.73.253:8081/test/getGoodsListByPage?page="+params.page)
+    .post(
+      "/test/getGoodsListByPage?page=" + params.page + "&type=" + params.type
+    )
     .then((res) => {
-      console.log(res);
+      goodsList.value = res.records; // 修改属性值
     })
     .catch((err) => {
       console.error(err);
     });
+};
+
+const addCart = (obj) => {
+  let goodsItem = obj;
+  let arr = store.addList;
+  store.addTotal += 1;
+  store.amount += obj.price
+  const existingItem = arr.find((item) => item.id === obj.id);
+  if (existingItem) {
+    existingItem.quality++;
+  } else {
+    goodsItem.quality = 1;
+    store.addList.push(obj);
+  }
+  showSuccessToast('The product has been successfully added to your shopping cart.');
+};
+
+const dts = (obj)=>{
+  let dts = toRaw(obj)
+  store.goodsDts = dts
+  router.push('/goods')
+}
+
+onMounted(() => {
+  getGoods();
 });
 </script>
 
 <style lang="less" scoped>
-@import url("@/style/public.less");
-
+@import url("../style/public.less");
 </style>

@@ -4,7 +4,7 @@
       <div class="header">
         <van-icon name="bars" size="30" color="gray" @click="showMenu" />
         <img src="@/assets/lgoo.png" alt="" />
-        <van-badge :content="0" color="#1989fa">
+        <van-badge :content="store.addTotal" color="red">
           <van-icon @click="router.push('/cart')" name="shopping-cart" size="30" color="rgb(236, 156, 7);" />
         </van-badge>
       </div>
@@ -65,6 +65,9 @@
 <script setup>
 import { ref, reactive, toRefs, onMounted } from "vue";
 import { useRouter } from "vue-router";
+import { cartStore } from "../store/modules/cart";
+
+const store = cartStore()
 const router = useRouter();
 
 const showLeft = ref(false);
@@ -75,4 +78,7 @@ const showMenu = () => {
 
 <style lang="less">
 @import url("@/style/app.less");
+.van-badge--top-right{
+  padding: 3px 5px;
+}
 </style>

@@ -1,19 +1,23 @@
 import { defineStore } from 'pinia'
 import { setItem, getItem } from '@/utils/storage'
 
-const userStore = defineStore('user', {
+export const cartStore = defineStore('cart', {
+  persist:true,
   state: () => {
     return {
-      addTotal:'',
-      
+      addTotal:0,
+      addList:[],
+      amount:0,
+      email:'',
+      address:'',
+      params:{},
+      goodsDts:{}
     }
   },
   actions:{
-    setToken(token){
-      this.token = token
-      setItem(TOKEN,token)//存储token
+    getAmount() {
+      this.amount = this.addList.reduce((total, item) => total + item.price * item.quality, 0);
     },
   }
 })
 
-export default userStore

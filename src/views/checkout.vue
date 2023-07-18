@@ -1,21 +1,26 @@
 <template>
-    <div class="checkout">
-        <div class="summary">
-            <div class="title">
-                <van-icon name="cart-o" size="30" color="#1989fa" />
-                <span style="margin-left: 0.2rem">Show order summary 》</span>
-            </div>
-            <div class="total">$1957.0</div>
-        </div>
-        <div class="form">
-            <router-view />
-        </div>
+  <div class="checkout">
+    <div class="summary">
+      <div class="title">
+        <van-icon name="cart-o" size="30" color="#1989fa" />
+        <span style="margin-left: 0.2rem">Show order summary 》</span>
+      </div>
+      <div class="total">${{ store.amount + 2 }}.00</div>
     </div>
+    <div class="form">
+      <router-view v-slot="{ Component }">
+        <keep-alive>
+          <component :is="Component" />
+        </keep-alive>
+      </router-view>
+    </div>
+  </div>
 </template>
 
 <script setup lang="js">
 import { ref, reactive, toRefs, onMounted } from 'vue'
-
+import { cartStore } from '@/store/modules/cart';
+const store = cartStore()
 //  address
 const searchResult = ref([]);
 const onSave = () => showToast('save');
@@ -57,8 +62,6 @@ const onConfirm = ({ selectedOptions }) => {
     result.value = selectedOptions[0]?.text;
     showPicker.value = false;
 };
-
-
 </script>
 
 <style scoped lang="less">

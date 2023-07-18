@@ -1,23 +1,33 @@
 <template>
   <div class="products">
-    <div class="main-title">
-      All PRODUCTS
-    </div>
+    <div class="main-title">All PRODUCTS</div>
     <div class="goodsList">
       <van-grid :border="false" :column-num="2" :gutter="5">
-        <van-grid-item v-for="i in 7">
+        <van-grid-item v-for="(item, index) in goodsList" :key="item.id">
           <div class="item">
-            <van-icon name="new" size="50" style="position: absolute; right: -9px; top: 0px; color: rgb(255, 64, 0);" />
-            <van-image
-              src="https://fastly.jsdelivr.net/npm/@vant/assets/apple-2.jpeg"
+            <van-icon
+              name="new"
+              size="40"
+              style="
+                position: absolute;
+                right: -10px;
+                top: -10px;
+                color: rgb(255, 111, 0);
+              "
             />
-            <h2>iphone</h2>
+            <van-image
+              :src="require(`../assets/picture/${item.picFileName}`)"
+              @click="dts(item)"
+              />
+            <h2>{{ item.goodsName }}</h2>
             <div class="item-price">
               <span class="price">
-                <div class="old">$ 13.0</div>
-                <div class="new">$ 113.0</div>
+                <div class="old">
+                  {{ item.priceOld ? "$" + item.priceOld : "" }}
+                </div>
+                <div class="new">$ {{ item.price }}.00</div>
               </span>
-              <van-button type="primary" round>
+              <van-button type="primary" round @click="addCart(item,goodsList)">
                 <van-swipe
                   vertical
                   class="notice-swipe"
@@ -34,7 +44,12 @@
         </van-grid-item>
       </van-grid>
     </div>
-    <van-pagination v-model="page.currentPage" :total-items="page.total" :show-page-size="page-size">
+    <van-pagination
+      v-model="page.currentPage"
+      :total-items="page.total"
+      :show-page-size="page.size"
+      @change="changePage()"
+    >
       <template #prev-text>
         <van-icon name="arrow-left" />
       </template>
@@ -47,21 +62,96 @@
 </template>
 
 <script setup>
-  import { ref, reactive, toRefs, onMounted } from "vue";
-  import { useRouter } from "vue-router";
-  import "vant/lib/index.css";
-  const router = useRouter();
+import { ref, reactive, toRefs, onMounted,toRaw } from "vue";
+import { useRouter } from "vue-router";
+import http from "../axios/index";
+import { cartStore } from "../store/modules/cart";
+import { showLoadingToast, closeToast } from "vant";
+const store = cartStore();
+const router = useRouter();
 
-  // page
-  const page = reactive({
-    currentPage:1,
-    total:6,
-    size:5,
-  })
+// goodslist
+const goodsList = ref([]);
+
+const getGoods = () => {
+  let params = {
+    page: 1,
+    type: 1,
+  };
+  http
+    .post(
+      "/test/getGoodsListByPage?page=" + params.page + "&type=" + params.type
+    )
+    .then((res) => {
+      goodsList.value = res.records; // 修改属性值
+      page.currentPage = res.current;
+      page.size = res.size;
+      page.total = res.total;
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+};
+
+const dts = (obj)=>{
+  let dts = toRaw(obj)
+  store.goodsDts = dts
+  router.push('/goods')
+}
+
+const addCart = (obj) => {
+  let goodsItem = obj;
+  let arr = store.addList;
+  store.addTotal += 1;
+  store.amount += obj.price
+  const existingItem = arr.find((item) => item.id === obj.id);
+  if (existingItem) {
+    existingItem.quality++;
+  } else {
+    goodsItem.quality = 1;
+    store.addList.push(obj);
+  }
+  showSuccessToast('The product has been successfully added to your shopping cart.');
+};
+onMounted(() => {
+  getGoods();
+});
+
+// page
+const page = reactive({
+  currentPage: 1,
+  total: 0,
+  size: 0,
+});
+
+const changePage = () => {
+  let params = {
+    page: page.currentPage,
+    type: 1,
+  };
+  showLoadingToast({
+    duration: 0,
+    forbidClick: true,
+    message: 'Loading...',
+  });
+  http
+    .post(
+      "/test/getGoodsListByPage?page=" + params.page + "&type=" + params.type
+    )
+    .then((res) => {
+      goodsList.value = res.records; // 修改属性值
+      page.currentPage = res.current;
+      page.size = res.size;
+      page.total = res.total;
+      closeToast()
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+};
 </script>
 
 <style lang="less" scoped>
-
 @import url("@/style/public.less");
 @import url("@/style/pagination.less");
 .products {

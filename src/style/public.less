@@ -75,6 +75,7 @@
 .goodsList {
   width: 100%;
   .item {
+    min-height: 18rem;
     position: relative;
     display: flex;
     flex-direction: column;
@@ -85,8 +86,13 @@
     border-radius: 0.5rem;
     box-shadow: 0 0 23px -8px #8b8b8b;
     h2 {
+      text-align: center;
       margin: 0.5rem 0;
       color: #00385c;
+      font-size: 20px;
+      height: 5rem;
+      display: flex;
+      align-items: center;
     }
     .item-price {
       width: 100%;
@@ -108,13 +114,19 @@
       }
     }
     .van-button {
-      height: 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 2.8rem;
       padding: 0rem 0.8rem;
-      border-radius: 0.3rem;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      font-weight: bolder;
     }
+    i{font-size: 1.5rem; position: relative; top: 5px;}
     .notice-swipe {
-      height: 80px;
-      line-height: 80px;
+      height: 40px ;
+      line-height: 40px ;
     }
   }
   .van-image {

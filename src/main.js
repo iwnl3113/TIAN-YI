@@ -12,5 +12,6 @@ pinia.use(piniaPluginPersistedstate);
 
 const app = createApp(App)
 app.use(store).use(router).use(Vant)
+app.use(pinia)
 app.use(Pagination);
 app.mount("#app");
