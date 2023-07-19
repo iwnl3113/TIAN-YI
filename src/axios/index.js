@@ -3,7 +3,7 @@ import axios from "axios";
 import { showFailToast } from "vant";
 
 const http = axios.create({
-  baseURL: "http://121.41.73.253:8081",
+  baseURL: "http://121.41.73.253:8081/",
   timeout: 50000,
 });
 

@@ -3,7 +3,7 @@
     <div class="main-title">All PRODUCTS</div>
     <div class="goodsList">
       <van-grid :border="false" :column-num="2" :gutter="5">
-        <van-grid-item v-for="(item, index) in goodsList" :key="item.id">
+        <van-grid-item v-for="(item) in goodsList" :key="item.id">
           <div class="item">
             <van-icon
               name="new"
@@ -16,7 +16,7 @@
               "
             />
             <van-image
-              :src="require(`../assets/picture/${item.picFileName}`)"
+              :src=item.picFileName
               @click="dts(item)"
               />
             <h2>{{ item.goodsName }}</h2>
@@ -66,7 +66,7 @@ import { ref, reactive, toRefs, onMounted,toRaw } from "vue";
 import { useRouter } from "vue-router";
 import http from "../axios/index";
 import { cartStore } from "../store/modules/cart";
-import { showLoadingToast, closeToast } from "vant";
+import { showLoadingToast, showSuccessToast, closeToast } from "vant";
 const store = cartStore();
 const router = useRouter();
 
@@ -78,12 +78,11 @@ const getGoods = () => {
     page: 1,
     type: 1,
   };
-  http
-    .post(
-      "/test/getGoodsListByPage?page=" + params.page + "&type=" + params.type
+  http.post(
+      "/getGoodsListByPage?page=" + params.page + "&type=" + params.type
     )
     .then((res) => {
-      goodsList.value = res.records; // 修改属性值
+      goodsList.value = res.list; // 修改属性值
       page.currentPage = res.current;
       page.size = res.size;
       page.total = res.total;
@@ -136,11 +135,11 @@ const changePage = () => {
   });
   http
     .post(
-      "/test/getGoodsListByPage?page=" + params.page + "&type=" + params.type
+      "/getGoodsListByPage?page=" + params.page + "&type=" + params.type
     )
     .then((res) => {
-      goodsList.value = res.records; // 修改属性值
-      page.currentPage = res.current;
+      goodsList.value = res.list; // 修改属性值
+      page.currentPage = res.pageNum;
       page.size = res.size;
       page.total = res.total;
       closeToast()

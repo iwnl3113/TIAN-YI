@@ -39,7 +39,7 @@
     </van-form>
 </template>
 
-<script setup lang="js">
+<script setup>
 import { ref, reactive, toRefs, onMounted } from 'vue'
 import { useRouter } from "vue-router";
 import { cartStore } from '@/store/modules/cart';

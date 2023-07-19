@@ -17,7 +17,7 @@
   </div>
 </template>
 
-<script setup lang="js">
+<script setup>
 import { ref, reactive, toRefs, onMounted } from 'vue'
 import { cartStore } from '@/store/modules/cart';
 const store = cartStore()

@@ -8,7 +8,7 @@
               <van-icon name="share" size="40" @click="router.back()" />
             </div>
             <van-image
-              :src="require(`../assets/picture/${item.picFileName}`)"
+              :src=item.picFileName
             />
             <h2>{{ item.goodsName }}</h2>
             <div class="item-price">

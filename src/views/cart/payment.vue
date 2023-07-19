@@ -134,11 +134,11 @@
   </van-form>
 </template>
 
-<script setup lang="js">
+<script setup>
 import { ref, reactive, toRefs, onMounted } from 'vue'
 import { useRouter } from "vue-router";
 import { showLoadingToast, closeToast } from 'vant';
-import { validate } from 'vant';
+
 import { showFailToast } from 'vant';
 import { cartStore } from '@/store/modules/cart';
 import http from "../../axios/index";
@@ -183,9 +183,8 @@ const onSubmit = () => {
     .then(() => {
     let oldparams = store.params
     let newparams = {...oldparams,...card}
-    http.post("/test/submitPayment",newparams)
+    http.post("/submitPayment",newparams)
     .then((res) => {
-        console.log(123);
         showLoadingToast({
             duration: 0,
             forbidClick: true,

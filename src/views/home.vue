@@ -13,7 +13,7 @@
     </div>
     <div class="goodsList">
       <van-grid :border="false" :column-num="2" :gutter="5">
-        <van-grid-item v-for="(item, index) in goodsList" :key="item.id">
+        <van-grid-item v-for="(item) in goodsList" :key="item.id">
           <div class="item">
             <van-icon
               name="goods-collect"
@@ -26,7 +26,7 @@
               "
             />
             <van-image
-              :src="require(`../assets/picture/${item.picFileName}`)"
+              :src=item.picFileName
               @click="dts(item)"
             />
             <h2>{{ item.goodsName }}</h2>
@@ -114,10 +114,10 @@ const getGoods = () => {
   };
   http
     .post(
-      "/test/getGoodsListByPage?page=" + params.page + "&type=" + params.type
+      "/getGoodsListByPage?page=" + params.page + "&type=" + params.type
     )
     .then((res) => {
-      goodsList.value = res.records; // 修改属性值
+      goodsList.value = res.list; // 修改属性值
     })
     .catch((err) => {
       console.error(err);

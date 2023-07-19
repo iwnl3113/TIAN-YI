@@ -7,7 +7,7 @@
           <div class="item">
             <van-icon name="hot" size="40" style="position: absolute; right: -10px; top: -10px; color: rgb(255, 111, 0);" />
             <van-image
-              :src='require(`../assets/picture/${item.picFileName}`)'
+              :src=item.picFileName
               @click="dts(item)"
             />
             <h2>{{ item.goodsName }}</h2>
@@ -36,7 +36,8 @@
     <van-pagination
       v-model="page.currentPage"
       :total-items="page.total"
-      :show-page-size="page - size"
+      :show-page-size="page.size"
+      @change="changePage()"
     >
       <template #prev-text>
         <van-icon name="arrow-left" />
@@ -68,10 +69,10 @@ const getGoods = () => {
   };
   http
     .post(
-      "/test/getGoodsListByPage?page=" + params.page + "&type=" + params.type
+      "/getGoodsListByPage?page=" + params.page + "&type=" + params.type
     )
     .then((res) => {
-      goodsList.value = res.records; // 修改属性值
+      goodsList.value = res.list; // 修改属性值
     })
     .catch((err) => {
       console.error(err);
@@ -103,12 +104,37 @@ onMounted(() => {
   getGoods();
 });
 
-// page
 const page = reactive({
   currentPage: 1,
-  total: 6,
-  size: 5,
+  total: 0,
+  size: 0,
 });
+
+const changePage = () => {
+  let params = {
+    page: page.currentPage,
+    type: 3,
+  };
+  showLoadingToast({
+    duration: 0,
+    forbidClick: true,
+    message: 'Loading...',
+  });
+  http
+    .post(
+      "/getGoodsListByPage?page=" + params.page + "&type=" + params.type
+    )
+    .then((res) => {
+      goodsList.value = res.list; // 修改属性值
+      page.currentPage = res.pageNum;
+      page.size = res.size;
+      page.total = res.total;
+      closeToast()
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+};
 </script>
 
 <style lang="less" scoped>

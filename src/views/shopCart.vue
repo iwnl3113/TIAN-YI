@@ -19,7 +19,7 @@
             height="10rem"
             width="10rem"
             fit="cover"
-            :src="require(`../assets/picture/${item.picFileName}`)"
+            :src=item.picFileName
           />
         </div>
         <div class="sub">
@@ -80,6 +80,9 @@
         <div class="sub btn">
           <van-button type="success" @click="checkout()"
             >Proceed to checkout</van-button
+          >
+          <van-button type="primary" @click="router.back()"
+            >Back</van-button
           >
         </div>
       </div>
