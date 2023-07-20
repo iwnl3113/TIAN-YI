@@ -55,7 +55,7 @@ import { ref, reactive, toRefs, onMounted,toRaw } from "vue";
 import { useRouter } from "vue-router";
 import http from "../axios/index";
 import { cartStore } from "../store/modules/cart";
-import { showSuccessToast, showFailToast } from 'vant';
+import { showLoadingToast, showSuccessToast, closeToast } from "vant";
 const store = cartStore()
 const router = useRouter();
 
@@ -73,6 +73,10 @@ const getGoods = () => {
     )
     .then((res) => {
       goodsList.value = res.list; // 修改属性值
+      page.currentPage = res.pageNum;
+      page.size = res.size;
+      page.total = res.total;
+      closeToast()
     })
     .catch((err) => {
       console.error(err);
@@ -104,6 +108,7 @@ onMounted(() => {
   getGoods();
 });
 
+// page
 const page = reactive({
   currentPage: 1,
   total: 0,

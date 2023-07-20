@@ -5,16 +5,6 @@
       <van-grid :border="false" :column-num="2" :gutter="5">
         <van-grid-item v-for="(item) in goodsList" :key="item.id">
           <div class="item">
-            <van-icon
-              name="new"
-              size="40"
-              style="
-                position: absolute;
-                right: -10px;
-                top: -10px;
-                color: rgb(255, 111, 0);
-              "
-            />
             <van-image
               :src=item.picFileName
               @click="dts(item)"
@@ -86,6 +76,7 @@ const getGoods = () => {
       page.currentPage = res.current;
       page.size = res.size;
       page.total = res.total;
+      closeToast()
     })
     .catch((err) => {
       console.error(err);

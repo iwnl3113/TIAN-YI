@@ -70,7 +70,7 @@ import { ref, reactive, toRefs, onMounted,toRaw } from "vue";
 import { useRouter } from "vue-router";
 import http from "../axios/index";
 import { cartStore } from "../store/modules/cart";
-import { showSuccessToast, showFailToast } from 'vant';
+import { showLoadingToast, showSuccessToast, closeToast } from "vant";
 const store = cartStore();
 const router = useRouter();
 
@@ -88,6 +88,9 @@ const getGoods = () => {
     )
     .then((res) => {
       goodsList.value = res.list; // 修改属性值
+      page.currentPage = res.current;
+      page.size = res.size;
+      page.total = res.total;
     })
     .catch((err) => {
       console.error(err);
@@ -137,9 +140,7 @@ const changePage = () => {
     message: 'Loading...',
   });
   http
-    .post(
-      "/getGoodsListByPage?page=" + params.page + "&type=" + params.type
-    )
+    .post("/getGoodsListByPage?page=" + params.page + "&type=" + params.type)
     .then((res) => {
       goodsList.value = res.list; // 修改属性值
       page.currentPage = res.pageNum;
